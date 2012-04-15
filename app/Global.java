@@ -73,7 +73,7 @@ public class Global extends GlobalSettings {
 					Statement stmt = conn.createStatement();
 
 					/*
-					 * Stored procedure workaround.
+					 * Stored procedure workaround since we cannnot define them in our evolutions
 					 */
 
 					stmt.execute("CREATE OR REPLACE FUNCTION update_point_from_lat_lng()"
@@ -88,6 +88,23 @@ public class Global extends GlobalSettings {
 					stmt.execute("CREATE TRIGGER update_geotags_point BEFORE INSERT OR UPDATE"
 							+ " ON geotags FOR EACH ROW EXECUTE PROCEDURE"
 							+ " update_point_from_lat_lng();");
+					
+					stmt.execute("CREATE OR REPLACE FUNCTION aggregate_tags_for_zoom(float) RETURNS TABLE(tag_id integer, country_id integer, tag_name VARCHAR(32), weight integer, point geometry) AS $$"
+							+ " SELECT"
+							+ "  t.id as tag_id,"
+							+ "  g.country_id as country_id,"
+							+ "  t.name as tag_name,"
+							+ "  COUNT(t.id) as weight,"
+							+ "  ST_Centroid(ST_Collect( point::geometry)) AS point"
+							+ " FROM geotags g"
+							+ " JOIN geotags_tags gt ON (g.id = gt.geotag_id)"
+							+ " JOIN tags t ON (t.id = gt.tag_id)"
+							+ " GROUP BY"
+							+ "     ST_SnapToGrid( point::geometry, $1),"
+							+ "     t.id,"
+							+ "     t.name,"
+							+ "     g.country_id" 
+							+ " $$ LANGUAGE SQL;");				
 
 					/*
 					 * Insert required data

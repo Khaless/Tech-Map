@@ -55,24 +55,7 @@ CREATE TABLE geotags_tags (
 ) WITH ( OIDS=FALSE );
 
 CREATE INDEX geotags_point_gix ON geotags USING GIST (point);
-
-
-CREATE VIEW aggregate_tags AS
-SELECT 
-  t.id as tag_id,
-  g.country_id as country_id,
-  t.name as tag_name,
-  COUNT(t.id) as weight,
-  ST_Centroid(ST_Collect( point::geometry)) AS point
-FROM geotags g 
-JOIN geotags_tags gt ON (g.id = gt.geotag_id)
-JOIN tags t ON (t.id = gt.tag_id)
-GROUP BY
-    ST_SnapToGrid( point::geometry, 22.25, 11.125),
-    t.id,
-    t.name,
-    g.country_id;
-                
+                     
 # --- !Downs
 
 SET CONSTRAINTS ALL DEFERRED;
@@ -83,8 +66,6 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS tags CASCADE;
 DROP TABLE IF EXISTS countries CASCADE;
 DROP TABLE IF EXISTS country_polygons CASCADE;
-
-DROP VIEW IF EXISTS aggregate_tags CASCADE;
 
 DROP SEQUENCE IF EXISTS users_seq;
 DROP SEQUENCE IF EXISTS tags_seq;

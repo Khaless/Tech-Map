@@ -1,4 +1,6 @@
 var markersArray = [];
+var zoomLevel = -1;
+var map;
 
 function updateTagMap_callback(data) {
 
@@ -45,6 +47,38 @@ function updateTagMap_callback(data) {
 
 }
 
+function calculateZoomLevel() {
+	var zoomLevel = map.getZoom();
+	switch(zoomLevel) {
+	case 0:
+		return 200;
+		case 1:
+		return 150;
+		case 2:
+			return 100;
+		case 3:
+		case 4:
+			return 50;
+		case 5:
+			return 30;
+		case 6: 
+			return 10;
+		case 7:
+			return 5;
+		default: 
+			return 1; 
+	}
+}
+
+function updateMapIfZoomLevelChanged() {
+	var newZoomLevel = calculateZoomLevel();
+	console.log(map.getZoom(), newZoomLevel);
+	if (newZoomLevel != zoomLevel) {
+		zoomLevel = newZoomLevel;
+	}
+	updateTagMap();
+}
+
 function updateTagMap() {
 
 	var tag_ids = $.map($("#tag-input").tokenInput("get"), function(e) {
@@ -57,6 +91,7 @@ function updateTagMap() {
 	$.ajax({
 		url : "/aggregated_tags.json",
 		data : JSON.stringify({
+			zoom: zoomLevel,
 			tag_ids : tag_ids,
 			country_ids : country_ids
 		}),
@@ -91,10 +126,13 @@ $(document).ready(function() {
 		}
 	});
 
+	zoomLevel = 4;
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom : 4,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	});
+
+	google.maps.event.addListener(map, 'zoom_changed', updateMapIfZoomLevelChanged);
 
 	/*
 	 * Attempt to centre the map on their location.

@@ -62,10 +62,10 @@ public class Tags extends Controller {
 		for(JsonNode node : (ArrayNode) request().body().asJson().findValues("country_ids").get(0)) {
 			country_ids.add(node.getIntValue());
 		}
+		
+		double zoomLevel = request().body().asJson().path("zoom").asDouble(1.0d);
 			
-	
-		ExpressionList<AggregateTag> el = AggregateTag.findAggregated().where();
-
+		ExpressionList<AggregateTag> el = AggregateTag.findAggregated(zoomLevel).where();
 		
 		if (tag_ids.size() > 0) {
 			el = el.in("tag_id", tag_ids);

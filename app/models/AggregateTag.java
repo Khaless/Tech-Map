@@ -25,10 +25,14 @@ public class AggregateTag extends Model {
 	public static Finder<Long, AggregateTag> find = new Finder<Long, AggregateTag>(
 			Long.class, AggregateTag.class);
 
-	public static Query<AggregateTag> findAggregated() {
+	public static Query<AggregateTag> findAggregated(double zoomLevel) {
+		
+		if(zoomLevel <= 0.0d || zoomLevel >= 1000.0d) {
+			throw new RuntimeException("Unsupported Zoom level");
+		}
 
 		String sql = "SELECT tag_id, tag_name, weight," + " ST_X(point),"
-				+ " ST_Y(point)" + " FROM aggregate_tags at";
+				+ " ST_Y(point)" + " FROM aggregate_tags_for_zoom( " + Double.toString(zoomLevel) + ") at";
 
 		RawSql rawSql = RawSqlBuilder.parse(sql)
 				.columnMapping("tag_id", "tag_id")
