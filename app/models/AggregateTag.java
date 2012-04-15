@@ -27,7 +27,7 @@ public class AggregateTag extends Model {
 
 	public static Query<AggregateTag> findAggregated(double zoomLevel) {
 		
-		if(zoomLevel <= 0.0d || zoomLevel >= 1000.0d) {
+		if(zoomLevel <= 0.0d || zoomLevel > 2000.0d) {
 			throw new RuntimeException("Unsupported Zoom level");
 		}
 

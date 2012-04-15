@@ -33,14 +33,11 @@ function updateTagMap_callback(data) {
 	$.each(bylatlng, function(i, e) {
 
 		var str = $.map(e, function(j) {
-			return j.name;
-		}).join(", ");
-
-		var marker = new google.maps.InfoWindow({
-			map : map,
-			position : new google.maps.LatLng(e[0].latitude, e[0].longitude),
-			content : str
-		});
+			var fontSize = (150.0*(1.0+(1.5*j.weight-max_weight/2)/max_weight))+"%";
+			return "<span style='font-size:" + fontSize + "'>" + j.name + "</span>";
+		}).join(" ");	
+		
+		var marker = new TxtOverlay( new google.maps.LatLng(e[0].latitude, e[0].longitude ) , str, "maps-tag-overlay", map )
 		markersArray.push(marker);
 
 	});
@@ -51,9 +48,9 @@ function calculateZoomLevel() {
 	var zoomLevel = map.getZoom();
 	switch(zoomLevel) {
 	case 0:
-		return 200;
+		return 1000;
 		case 1:
-		return 150;
+		return 500;
 		case 2:
 			return 100;
 		case 3:
@@ -72,7 +69,6 @@ function calculateZoomLevel() {
 
 function updateMapIfZoomLevelChanged() {
 	var newZoomLevel = calculateZoomLevel();
-	console.log(map.getZoom(), newZoomLevel);
 	if (newZoomLevel != zoomLevel) {
 		zoomLevel = newZoomLevel;
 	}
