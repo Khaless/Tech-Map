@@ -1,0 +1,53 @@
+@(tagForm: Form[Geotag.TagIn]) 
+
+@import helper._ 
+
+@javascript = {
+<script src="@routes.Assets.at("javascripts/tagin.js")"></script>
+} 
+
+@main("Page Title")(javascript) {
+<div class="container">
+
+	@helper.form(routes.Geotag.doTagIn) {
+
+	<h1>Tag in into the Map!</h1>
+	<br /> @if(tagForm.hasGlobalErrors) {
+	<p class="error">@tagForm.globalError.message</p>
+	} @form(routes.Geotag.doTagIn()) {
+
+	<fieldset>
+
+		@inputText(tagForm("enterprise_id"), '_label -> "Enterprise ID")
+		
+		<dl class=" " id="location_field">
+			<dt>
+				<label for="location">Location</label>
+			</dt>
+			<dd>
+				<span id="tag-location-span">Determining Location...</span> <input
+					type="hidden" id="tag-location" name="location"
+					style="display: none;">
+			</dd>
+		</dl>
+		<dl class=" " id="location_field">
+			<dt>
+				<label for="location">Technologies</label>
+			</dt>
+			<dd>
+				<input type="text" id="tag-input" name="tags" style="display: none;">
+				<input type="hidden" id="new-tags" name="newtags" style="display: none;">
+			</dd>
+		</dl>
+
+	</fieldset>
+
+	<div class="actions">
+		<input type="submit" value="Tag In!" class="btn btn-primary">
+		or <a href="" class="btn">Cancel</a>
+	</div>
+
+</div>
+<!-- /container -->
+
+} } }

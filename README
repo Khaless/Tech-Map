@@ -2,3 +2,22 @@ This is your new Play 2.0 application
 =====================================
 
 This file will be packaged with your application, when using `play dist`.
+
+
+Credits & Licence List
+======================
+
+http://loopj.com/jquery-tokeninput/          => MIT Licence 
+http://code.google.com/p/jquery-geolocation/ => MIT Licence
+
+
+Yahoo YQL to get Geography Bounding Box locations. e.g.
+http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22Australia%22&diagnostics=true
+
+PostGIS Geometry Information:
+http://workshops.opengeo.org/postgis-intro/geography.html
+
+Country Border Information:
+http://www.gelib.com/world-borders.htm
+
+http://gis.stackexchange.com/questions/11567/spatial-clustering-with-postgis

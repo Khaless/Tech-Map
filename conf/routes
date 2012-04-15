@@ -2,8 +2,19 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
 GET     /                           controllers.Application.index()
+GET     /about                      controllers.Application.about()
+
+GET     /tag-in                     controllers.Geotag.tagIn()
+POST    /tag-in                     controllers.Geotag.doTagIn()
+
+GET	    /map                        controllers.Map.index()
+
+GET	    /tags.json                  controllers.Tags.tagsByName(q: String ?= "")
+POST    /tags.json                  controllers.Tags.addTag()
+POST	/aggregated_tags.json       controllers.Tags.aggregatedTags()
+
+GET	    /countries.json             controllers.Countries.tags(q: String ?= "")
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

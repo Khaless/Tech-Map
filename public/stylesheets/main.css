@@ -1,0 +1,13 @@
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+.no-pad {
+	padding: 0 0 0 0;
+}
+
+.hero-change-pad {
+	padding: 20px;
+	margin-bottom: 10px;
+}
