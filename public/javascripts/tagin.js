@@ -1,7 +1,7 @@
 $(document).ready(
 		function() {
 
-			$("#tag-input").tokenInput("/tags.json", {
+			$("#tag-input").tokenInput("/tags.json?toggle-new=true", {
 				theme : "facebook",
 				onAdd : function(item) {
 					if (item.id == -1) {

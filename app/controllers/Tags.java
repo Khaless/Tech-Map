@@ -26,10 +26,12 @@ public class Tags extends Controller {
 		/*
 		 * Hack to get easy, in-line additions of new tags.
 		 */
-		Tag nt = new Tag();
-		nt.name = query;
-		nt.id = -1L;
-		tags.add(nt);
+		if (form().bindFromRequest().get("toggle-new") != null) {
+			Tag nt = new Tag();
+			nt.name = query;
+			nt.id = -1L;
+			tags.add(nt);
+		}
 		
 		return ok(toJson(tags));
 	}
