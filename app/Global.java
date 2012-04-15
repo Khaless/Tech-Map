@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 import models.Country;
 import play.Application;
@@ -91,7 +92,12 @@ public class Global extends GlobalSettings {
 					/*
 					 * Insert required data
 					 */
-					BufferedReader in = new BufferedReader(new FileReader("conf/initial-data.sql"));
+					String path = "conf/initial-data.sql";
+					Map<String, String> env = System.getenv();
+					if (env.containsKey("OPENSHIFT_REPO_DIR")) {
+						path = env.get("OPENSHIFT_REPO_DIR") + "/" + path;
+					}
+					BufferedReader in = new BufferedReader(new FileReader(path));
 					conn.setAutoCommit(false); /* Turn off auto commit so the below are done as one transaction */
 					String line;
 					while((line = in.readLine()) != null) {
