@@ -70,6 +70,7 @@ JOIN tags t ON (t.id = gt.tag_id)
 GROUP BY
     ST_SnapToGrid( point::geometry, 22.25, 11.125),
     t.id,
+    t.name,
     g.country_id;
                 
 # --- !Downs
