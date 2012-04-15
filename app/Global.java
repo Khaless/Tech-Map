@@ -89,7 +89,7 @@ public class Global extends GlobalSettings {
 							+ " ON geotags FOR EACH ROW EXECUTE PROCEDURE"
 							+ " update_point_from_lat_lng();");
 					
-					stmt.execute("CREATE OR REPLACE FUNCTION aggregate_tags_for_zoom(float) RETURNS TABLE(tag_id integer, country_id integer, tag_name VARCHAR(32), weight integer, point geometry) AS $$"
+					stmt.execute("CREATE OR REPLACE FUNCTION aggregate_tags_for_zoom(float) RETURNS TABLE(tag_id integer, country_id integer, tag_name VARCHAR(32), weight bigint, point geometry) AS $$"
 							+ " SELECT"
 							+ "  t.id as tag_id,"
 							+ "  g.country_id as country_id,"
