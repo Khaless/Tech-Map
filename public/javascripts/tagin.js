@@ -39,29 +39,26 @@ $(document).ready(
 				var location = {
 					'lat' : loc.latitude,
 					'lng' : loc.longitude,
-					'str' : "Unknown [ " + loc.latitude + "," + loc.longitude
+					'str' : "GeoLocation Error [ " + loc.latitude + "," + loc.longitude
 							+ "]"
 				};
+				
+				$('#tag-location').attr("value", location.lat + "," + location.lng);
 
 				/*
 				 * Attempt to use Google Geocoding services to find Country,
 				 * Administrative Area and Locality.
 				 */
-				$.ajax({
-					url : 'http://maps.google.com/maps/geo?q=' + loc.latitude
-							+ ',' + loc.longitude
-							+ '&output=json&v=2&sensor=false&key=AIzaSyD65KItLCLZDrGMs6mJz3Li3bUR0xgufSo',
-					dataType : 'jsonp',
-					cache : false,
-					success : function(data) {
-						if (data.Placemark.length > 0) {
-							location.str = data.Placemark[0].address;
-						}
-						$('#tag-location-span').text(location.str);
-						$('#tag-location').attr("value",
-								location.lat + "," + location.lng);
-					}
-				});
+			    var geocoder = new google.maps.Geocoder();
+			    var latlng = new google.maps.LatLng(loc.latitude, loc.longitude);
+			    geocoder.geocode( { 'latLng': latlng}, function(results, status) {
+			        if (status == google.maps.GeocoderStatus.OK) {
+			        	location.str = results[0].formatted_address;
+			        	$('#tag-location-span').text(location.str);
+			          } else {
+			        	$('#tag-location-span').text(location.str);
+			          }
+			    });
 			});
 
 		});
