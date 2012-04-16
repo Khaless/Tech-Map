@@ -16,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.avaje.ebean.ExpressionList;
+import com.avaje.ebean.Query;
 
 public class Tags extends Controller {
 
@@ -47,12 +48,17 @@ public class Tags extends Controller {
 	}
 
 	public static Result aggregatedTags() {
-		
+
+		/*
+		 * Parse incoming request as JSON then extract the required parameters.
+		 */
 		JsonNode json = request().body().asJson();
 		if (json == null) {
 			return badRequest("Expecting Json data");
 		}
 
+		double zoomLevel = request().body().asJson().path("zoom").asDouble(1.0d);
+		
 		ArrayList<Integer> tag_ids = new ArrayList<Integer>();	
 		for(JsonNode node : (ArrayNode) request().body().asJson().findValues("tag_ids").get(0)) {
 			tag_ids.add(node.getIntValue());
@@ -63,19 +69,9 @@ public class Tags extends Controller {
 			country_ids.add(node.getIntValue());
 		}
 		
-		double zoomLevel = request().body().asJson().path("zoom").asDouble(1.0d);
-			
-		ExpressionList<AggregateTag> el = AggregateTag.findAggregated(zoomLevel).where();
+		Query<AggregateTag> q = AggregateTag.findAggregated(zoomLevel, country_ids.toArray(new Integer[0]), tag_ids.toArray(new Integer[0]));
+		List<AggregateTag> tags = q.findList();
 		
-		if (tag_ids.size() > 0) {
-			el = el.in("tag_id", tag_ids);
-		}
-		
-		if (country_ids.size() > 0) {
-			el = el.in("country_id", country_ids);
-		}
-
-		List<AggregateTag> tags = el.findList();
 		return ok(toJson(tags));
 	}
 

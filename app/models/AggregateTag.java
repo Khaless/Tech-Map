@@ -25,14 +25,18 @@ public class AggregateTag extends Model {
 	public static Finder<Long, AggregateTag> find = new Finder<Long, AggregateTag>(
 			Long.class, AggregateTag.class);
 
-	public static Query<AggregateTag> findAggregated(double zoomLevel) {
+	public static Query<AggregateTag> findAggregated(double zoomLevel, Integer[] country_ids, Integer[] tag_ids) {
 		
-		if(zoomLevel <= 0.0d || zoomLevel > 2000.0d) {
+		if(zoomLevel <= 0.0d || zoomLevel > 1000.0d) {
 			throw new RuntimeException("Unsupported Zoom level");
 		}
 
 		String sql = "SELECT tag_id, tag_name, weight," + " ST_X(point),"
-				+ " ST_Y(point)" + " FROM aggregate_tags_for_zoom( " + Double.toString(zoomLevel) + ") at";
+				+ " ST_Y(point)" + " FROM aggregate_tags_for_zoom( " 
+				+ Double.toString(zoomLevel) + ", "
+				+ "ARRAY[" + AggregateTag.join(country_ids, ",") + "]::integer[], "
+				+ "ARRAY[" + AggregateTag.join(tag_ids, ",") + "]::integer[]"
+				+ ") at";
 
 		RawSql rawSql = RawSqlBuilder.parse(sql)
 				.columnMapping("tag_id", "tag_id")
@@ -43,6 +47,19 @@ public class AggregateTag extends Model {
 		
 		return find.setRawSql(rawSql);
 
+	}
+	
+	static private String join(Integer[] input, String delimiter) {
+		StringBuilder sb = new StringBuilder();
+		for (Integer value : input) {
+			sb.append(Integer.toString(value));
+			sb.append(delimiter);
+		}
+		int length = sb.length();
+		if (length > 0) {
+			sb.setLength(length - delimiter.length());
+		}
+		return sb.toString();
 	}
 
 }
