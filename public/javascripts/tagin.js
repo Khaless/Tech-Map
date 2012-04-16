@@ -50,7 +50,7 @@ $(document).ready(
 				$.ajax({
 					url : 'http://maps.google.com/maps/geo?q=' + loc.latitude
 							+ ',' + loc.longitude
-							+ '&output=json&v=2&sensor=false&key=xyz',
+							+ '&output=json&v=2&sensor=false&key=AIzaSyD65KItLCLZDrGMs6mJz3Li3bUR0xgufSo',
 					dataType : 'jsonp',
 					cache : false,
 					success : function(data) {
