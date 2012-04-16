@@ -46,23 +46,23 @@ function updateTagMap_callback(data) {
 
 function calculateZoomLevel() {
 	var zoomLevel = map.getZoom();
-	switch(zoomLevel) {
-		case 0:
-		case 1:
-			return 360;
-		case 2:
-			return 150;
-		case 3:
-		case 4:
-			return 50;
-		case 5:
-			return 30;
-		case 6: 
-			return 10;
-		case 7:
-			return 5;
-		default: 
-			return 1; 
+	switch (zoomLevel) {
+	case 0:
+	case 1:
+		return 360;
+	case 2:
+		return 150;
+	case 3:
+	case 4:
+		return 100;
+	case 5:
+		return 50;
+	case 6:
+		return 30;
+	case 7:
+		return 10;
+	default:
+		return 1;
 	}
 }
 
