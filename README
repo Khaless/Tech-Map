@@ -59,14 +59,15 @@ Add postgres to the application
 > rhc-ctl-app -a <name> -e add-postgresql-8.4
 
 SSH into your instance:
-> ssh 9d98b7410219414d8b088fd31cd2ce5c@techmap-mrodley.rhcloud.com
+> ssh <id>@<app-name>-<domain>.rhcloud.com
 
 Run the following commands to setup PostGis:
 psql -d <db-name> -c "create language plpgsql;"
 psql -d <db-name> -f /usr/share/pgsql/contrib/postgis-64.sql
 psql -d <db-name> -f /usr/share/pgsql/contrib/spatial_ref_sys.sql
 
-push to OpenShift & Watch it deploy.
-> git push
+Push to OpenShift & Watch it deploy (this is wrapped by the openshift_deploy script).
+Note: make sure you have play framework configured in your PATH
+> bash openshift_deploy
 
 
