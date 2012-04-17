@@ -36,22 +36,28 @@ function updateTagMap_callback(data) {
 			var fontSize = (150.0*(1.0+(1.5*j.weight-max_weight/2)/max_weight))+"%";
 			return "<span style='font-size:" + fontSize + "'>" + j.name + "</span>";
 		}).join(" ");	
-
+/*
 		var sw = new google.maps.LatLng(e[0].latitude - calculateZoomLevel()/4, e[0].longitude - calculateZoomLevel()/2); //sw
-		var ne = new google.maps.LatLng(e[0].latitude + calculateZoomLevel()/4, e[0].longitude + calculateZoomLevel()/2); //ne
-		var nw = new google.maps.LatLng(e[0].latitude + calculateZoomLevel()/4, e[0].longitude - calculateZoomLevel()/2); //nw
-		var center = new google.maps.LatLng(e[0].latitude, e[0].longitude ); // center
 		
-		/*var rect = new google.maps.Rectangle();
+		var nl = e[0].latitude + calculateZoomLevel()/4;
+		if(nl > 85) nl = 85;
+		var ne = new google.maps.LatLng(nl, e[0].longitude + calculateZoomLevel()/2); //ne
+
+		var nw = new google.maps.LatLng(nl, e[0].longitude - calculateZoomLevel()/2); //nw
+
+		var rect = new google.maps.Rectangle();
 		rect.setOptions({ map: map, bounds: new google.maps.LatLngBounds(sw, ne)});
 		markersArray.push(rect);
 		markersArray.push(new google.maps.Marker({position: ne, map: map, title: "ne"}));
 		markersArray.push(new google.maps.Marker({position: sw, map: map, title: "sw"}));
 		
 		markersArray.push(new google.maps.Marker({position: center, map: map, title: "ll"}));
-		*/
-
-		var marker = new TxtOverlay( nw , str, "maps-tag-overlay", map )
+		markersArray.push(new google.maps.Marker({position: nw, map: map, title: "t"}));
+		
+*/
+		//var marker = new TxtOverlay( nw , str, "maps-tag-overlay", map )
+		var center = new google.maps.LatLng(e[0].latitude, e[0].longitude ); // center
+		var marker = new TxtOverlay( center , str, "maps-tag-overlay", map )
 		markersArray.push(marker);
 
 	});
@@ -59,45 +65,19 @@ function updateTagMap_callback(data) {
 }
 
 function calculateZoomLevel() {
-	
+	// Grid Factor as a function of Zoom Level.
 	var d = 360 / Math.pow(2, map.getZoom());
-	console.log(d);
-	return d;
-	
-	// Calculate d, the viewport Horizontal distance in Meters (Approximtion)
-	//var R = 6371; //km
-        var b = map.getBounds();
-        var ne = b.getNorthEast();
-	var sw = b.getSouthWest();
-	//var x = (ne.lng() - sw.lng()) * Math.cos((sw.lat() + ne.lat())/2);
-	//var y = (ne.lat() - sw.lat());
-	//var d = Math.sqrt(x*x + y*y) * R;
-
-	var d = -1;
-	
-	if(ne.lng() < 0 && sw.lng() > 0) { // left of meridian
-		d = 180.0 - sw.lng() + 180 + ne.lng();
-	} else if (ne.lng() > 0 && sw.lng() > 0) { // right of meridian
-		d = ne.lng() - sw.lng();
- 	}
-	else if (ne.lng() < 0 && sw.lng() < 0) { // we have wrapped around the earth!
-		d = 360;
-	}
-
-	d = d/4;
-
-        console.log(d);
 	return d;
 }
 
 function updateMapIfZoomLevelChanged() {
 	setTimeout(function() {
-	var newZoomLevel = calculateZoomLevel();
-	if (newZoomLevel != zoomLevel) {
-		zoomLevel = newZoomLevel;
-	}
-	updateTagMap();
-	},1000);
+		var newZoomLevel = calculateZoomLevel();
+		if (newZoomLevel != zoomLevel) {
+			zoomLevel = newZoomLevel;
+		}
+		updateTagMap();
+	}, 250);
 }
 
 function updateTagMap() {
