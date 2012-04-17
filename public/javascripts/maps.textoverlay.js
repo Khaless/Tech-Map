@@ -36,8 +36,8 @@ TxtOverlay.prototype.onAdd = function() {
 	this.div_ = div;
 	var overlayProjection = this.getProjection();
 	var position = overlayProjection.fromLatLngToDivPixel(this.pos);
-	div.style.left = (position.x - 100) + 'px';
-	div.style.top = (position.y - 20) + 'px';
+	div.style.left = (position.x  ) + 'px';
+	div.style.top = (position.y  ) + 'px';
 	// We add an overlay to a map via one of the map's panes.
 
 	var panes = this.getPanes();
@@ -53,8 +53,8 @@ TxtOverlay.prototype.draw = function() {
 	var position = overlayProjection.fromLatLngToDivPixel(this.pos);
 
 	var div = this.div_;
-	div.style.left = (position.x - 100) + 'px';
-	div.style.top = (position.y - 20) + 'px';
+	div.style.left = (position.x ) + 'px';
+	div.style.top = (position.y ) + 'px';
 
 }
 // Optional: helper methods for removing and toggling the text overlay.
