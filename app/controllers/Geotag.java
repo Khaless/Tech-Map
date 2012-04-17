@@ -75,7 +75,7 @@ public class Geotag extends Controller {
 
 		Form<TagIn> submittedForm = tagInForm.bindFromRequest();
 		if (submittedForm.hasErrors()) {
-			return badRequest(tagin.render(submittedForm));
+			return ok(tagin.render(submittedForm));
 		} else {
 
 			User user = User.find.where()
