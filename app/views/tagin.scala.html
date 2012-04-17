@@ -1,54 +1,80 @@
 @(tagForm: Form[Geotag.TagIn]) 
 
 @import helper._ 
+@import helper.twitterBootstrap._
 
 @javascript = {
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript"
+	src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="@routes.Assets.at("javascripts/tagin.js")"></script>
 } 
 
-@main("Page Title")(javascript) {
+@main("TechMap > Tag In", "tagin")(javascript) {
 <div class="container">
-
-	@helper.form(routes.Geotag.doTagIn) {
-
-	<h1>Tag in into the Map!</h1>
-	<br /> @if(tagForm.hasGlobalErrors) {
-	<p class="error">@tagForm.globalError.message</p>
-	} @form(routes.Geotag.doTagIn()) {
-
-	<fieldset>
-
-		@inputText(tagForm("enterprise_id"), '_label -> "Enterprise ID")
-		
-		<dl class=" " id="location_field">
-			<dt>
-				<label for="location"><b>Location</b></label>
-			</dt>
-			<dd>
-				<span id="tag-location-span">Determining Location...</span> <input
-					type="hidden" id="tag-location" name="location"
-					style="display: none;">
-			</dd>
-		</dl>
-		<dl class=" " id="location_field">
-			<dt>
-				<label for="location"><b>Technologies</b></label>
-			</dt>
-			<dd>
-				<input type="text" id="tag-input" name="tags" style="display: none;">
-				<input type="hidden" id="new-tags" name="newtags" style="display: none;">
-			</dd>
-		</dl>
-
-	</fieldset>
-
-	<div class="actions">
-		<input type="submit" value="Tag In!" class="btn btn-primary">
-		or <a href="" class="btn">Cancel</a>
-	</div>
-
+	<div class="content">
+		<div class="page-header">
+			<h1>Tag in into the Map!</h1>
+		</div>
+		<div class="row">
+			<div class="span12">
+			
+				@if(flash.containsKey("success")) {
+			        <div class="alert alert-success">
+			            @flash.get("success")
+			        </div>
+			    } 
+			    
+				@helper.form(routes.Geotag.doTagIn) {
+			
+			        <fieldset>
+			            
+			                        
+			            @inputText(
+			                tagForm("enterprise_id"), 
+			                '_label -> Html("<b>Enterprise ID</b>"), 
+			                '_help -> "Please enter your Enterprise ID.",
+			                '_error -> tagForm.globalError
+			            )
+			           
+			        <dl class=" " id="location_field">
+						<dt>
+							<label for="location"><b>Location</b></label>
+						</dt>
+						<dd>
+							<span id="tag-location-span">Determining Location...</span> 
+								<input type="hidden" id="tag-location" name="location" style="display: none;">
+						</dd>
+					</dl>
+					<dl class=" " id="location_field">
+						<dt>
+							<label for="location"><b>Technologies</b></label>
+						</dt>
+						<dd>
+							<input type="text" id="tag-input" name="tags" style="display: none;"> <input type="hidden" id="new-tags" name="newtags" style="display: none;">
+						</dd>
+					</dl>
+			            
+			        </fieldset>
+			            
+			        <div class="actions">
+			            <input type="submit" class="btn primary" value="Tag In!">
+			            <a href="@routes.Application.index" class="btn">Cancel</a>
+			        </div>
+			        
+			    }
+		    </div>
+    	</div>
+    </div>
 </div>
-<!-- /container -->
+}
 
-} } }
+
+
+
+
+
+
+			
+
+
+	

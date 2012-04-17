@@ -110,6 +110,8 @@ public class Geotag extends Controller {
 			gt.save();
 			gt.saveManyToManyAssociations("tags");
 
+			flash("success", "You have been Tagged In!");
+			
 			return ok(tagin.render(submittedForm));
 		}
 	}

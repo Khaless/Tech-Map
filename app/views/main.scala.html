@@ -1,4 +1,4 @@
-@(title: String)(javascript: Html)(content: Html)
+@(title: String, nav: String = "")(javascript: Html)(content: Html)
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -36,13 +36,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Accenture Technology Map</a>
+          <a class="brand" href="#">Technology Map</a>
           <div class="nav-collapse">
             <ul class="nav">
-               <li><a href="/">Home</a></li>
-               <li><a href="/tag-in">Tag-In</a></li>
-               <li><a href="/map">Map</a></li>
-               <li><a href="/about">About</a></li>
+               <li class="@("active".when(nav == "home"))"><a href="/">Home</a></li>
+               <li class="@("active".when(nav == "tagin"))"><a href="/tag-in">Tag-In</a></li>
+               <li class="@("active".when(nav == "map"))"><a href="/map">Map</a></li>
+               <li class="@("active".when(nav == "about"))"><a href="/about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -53,7 +53,7 @@
     
 	<hr>
       <footer>
-        <p style="padding-left:55px;">&copy; Accenture 2012</p>
+        <p style="padding-left:55px;">Technology Map v 1.0 by Mathew Rodley</p>
       </footer>
     <!-- Le javascript
     ================================================== -->
