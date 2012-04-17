@@ -31,31 +31,10 @@ function updateTagMap_callback(data) {
 	});
 
 	$.each(bylatlng, function(i, e) {
-
 		var str = $.map(e, function(j) {
 			var fontSize = (150.0*(1.0+(1.5*j.weight-max_weight/2)/max_weight))+"%";
 			return "<span style='font-size:" + fontSize + "'>" + j.name + "</span>";
 		}).join(" ");	
-/*
-		var sw = new google.maps.LatLng(e[0].latitude - calculateZoomLevel()/4, e[0].longitude - calculateZoomLevel()/2); //sw
-		
-		var nl = e[0].latitude + calculateZoomLevel()/4;
-		if(nl > 85) nl = 85;
-		var ne = new google.maps.LatLng(nl, e[0].longitude + calculateZoomLevel()/2); //ne
-
-		var nw = new google.maps.LatLng(nl, e[0].longitude - calculateZoomLevel()/2); //nw
-
-		var rect = new google.maps.Rectangle();
-		rect.setOptions({ map: map, bounds: new google.maps.LatLngBounds(sw, ne)});
-		markersArray.push(rect);
-		markersArray.push(new google.maps.Marker({position: ne, map: map, title: "ne"}));
-		markersArray.push(new google.maps.Marker({position: sw, map: map, title: "sw"}));
-		
-		markersArray.push(new google.maps.Marker({position: center, map: map, title: "ll"}));
-		markersArray.push(new google.maps.Marker({position: nw, map: map, title: "t"}));
-		
-*/
-		//var marker = new TxtOverlay( nw , str, "maps-tag-overlay", map )
 		var center = new google.maps.LatLng(e[0].latitude, e[0].longitude ); // center
 		var marker = new TxtOverlay( center , str, "maps-tag-overlay", map )
 		markersArray.push(marker);
