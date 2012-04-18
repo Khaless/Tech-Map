@@ -44,3 +44,7 @@ body {
 #tag-location-alt {
 	display: none;
 }
+
+ul.token-input-list-facebook {
+	width: 100%;
+}
