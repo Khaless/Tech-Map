@@ -14,8 +14,6 @@ $(document).ready(
 							dataType : "json",
 							type : "POST",
 							success: function(data) { 
-								console.log(data);
-								
 								/* Remove and Re-add this new token */
 								$("#tag-input").tokenInput("remove", {real_name: item.real_name});
 								$("#tag-input").tokenInput("add", {id: data, name: item.real_name});
