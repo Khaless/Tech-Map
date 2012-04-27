@@ -47,8 +47,10 @@ How to Deploy
 =============
 
 Create a new OpenShift App
+```sh
     rhc-create-app -a app-name -t diy-0.1 -l email@example.org
     cd app-name
+```
 
 Add my Github (or your cloned repo) as Upstream & Pull from it:
     git remote add upstream -m master https://Khaless@github.com/Khaless/Tech-Map.git
