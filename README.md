@@ -48,34 +48,48 @@ How to Deploy
 
 Create a new OpenShift App
 ```sh
-    rhc-create-app -a app-name -t diy-0.1 -l email@example.org
-    cd app-name
+rhc-create-app -a app-name -t diy-0.1 -l email@example.org
+cd app-name
 ```
 
 Add my Github (or your cloned repo) as Upstream & Pull from it:
-    git remote add upstream -m master https://Khaless@github.com/Khaless/Tech-Map.git
-    git pull -s recursive -X theirs upstream master
+```sh
+git remote add upstream -m master https://Khaless@github.com/Khaless/Tech-Map.git
+git pull -s recursive -X theirs upstream master
+```
 
 Build application
-    play stage
+```sh
+play stage
+```
 
 Remove target/ directory from git ignore and add all changes and target/ dir
-    vim .gitgnore (and remove target/)
-    git add .gitignore
-    git add target
-    git commit -m "Commit for OpenShift"
+```sh
+vim .gitgnore (and remove target/)
+git add .gitignore
+git add target
+git commit -m "Commit for OpenShift"
+```
 
 Add postgres to the application
-    rhc-ctl-app -a app-name -e add-postgresql-8.4
+```sh
+rhc-ctl-app -a app-name -e add-postgresql-8.4
+```
 
 SSH into your instance:
-    ssh id@app-name-domain.rhcloud.com
+```sh
+ssh id@app-name-domain.rhcloud.com
+```
 
 Run the following commands to setup PostGis:
-    psql -d db-name -c "create language plpgsql;"
-    psql -d db-name -f /usr/share/pgsql/contrib/postgis-64.sql
-    psql -d db-name -f /usr/share/pgsql/contrib/spatial_ref_sys.sql
+```sh
+psql -d db-name -c "create language plpgsql;"
+psql -d db-name -f /usr/share/pgsql/contrib/postgis-64.sql
+psql -d db-name -f /usr/share/pgsql/contrib/spatial_ref_sys.sql
+```
 
 Push to OpenShift & Watch it deploy (this is wrapped by the openshift_deploy script).
 Note: make sure you have play framework configured in your PATH
-    bash openshift_deploy
+```sh
+bash openshift_deploy
+```
